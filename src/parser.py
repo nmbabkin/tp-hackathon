@@ -34,9 +34,21 @@ def extract_headers(text: str) -> tuple[dict, str]:
         match = re.search(pattern, text, re.IGNORECASE | re.MULTILINE)
         if match:
             fields[key] = match.group(1).strip()
+
+    # тело идёт после первой пустой строки
     parts = re.split(r"\n\s*\n", text, maxsplit=1)
-    body = parts[1].strip() if len(parts) == 2 else ""
+    if len(parts) == 2:
+        return fields, parts[1].strip()
+
+    # Пустой строки нет: телом считаем строки, которые не являются заголовками
+    header_line = re.compile(
+        r"^(?:From|От кого|Ot kogo|To|Кому|Komu|Date|Дата|Data|Subject|Тема|Tema)\s*:",
+        re.IGNORECASE,
+    )
+    body_lines = [line for line in text.splitlines() if not header_line.match(line)]
+    body = "\n".join(body_lines).strip()
     return fields, body
+
 
 def parse_text(raw: str, path: str) -> Email:
     fields, body = extract_headers(raw)

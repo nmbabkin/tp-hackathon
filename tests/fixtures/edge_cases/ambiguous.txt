@@ -1,0 +1,4 @@
+Subject: Привет
+From: user@company.ru
+
+Как дела? Давно не виделись.

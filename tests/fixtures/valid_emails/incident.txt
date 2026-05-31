@@ -1,0 +1,4 @@
+Subject: Падает Service Desk
+From: ivanov@company.ru
+
+Система не работает, массовый сбой, работа остановлена.

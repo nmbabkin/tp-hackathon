@@ -1,0 +1,4 @@
+Subject: Запрос доступа к VPN
+From: petrov@company.ru
+
+Прошу выдать доступ к VPN и Confluence для нового сотрудника.

@@ -57,7 +57,7 @@ DOCUMENTS_KEYWORDS = [
 
 EXTERNAL_KEYWORDS = [
     "внешнего пользователя", "от клиента", "жалоба клиента",
-    "партнёр не может", "клиент",
+    "партнёр не может", "обращение партнёра", "запрос партнёра",
 ]
 
 INFO_KEYWORDS = [
@@ -131,6 +131,14 @@ class Classifier:
     def is_incident(self, email, text: str) -> bool:
         subject = (email.subject or "").lower()
         body = (email.body or "").lower()
+        info_markers = ["дайджест", "плановый отчёт", "отчёт мониторинга"]
+        if self._any(text, info_markers):
+            return False
+        if self._any(text, HARDWARE_KEYWORDS):
+            return False
+        access_signals = ["vpn", "confluence", "gitlab", "1c", "запрос доступа", "выдать права"]
+        if self._any(text, access_signals):
+            return False
         has_critical_tag = bool(re.search(r"\[(critical|urgent|warning)\]", subject))
         looks_like_monitoring = self._any(body, MONITORING_MARKERS)
         if has_critical_tag and looks_like_monitoring:

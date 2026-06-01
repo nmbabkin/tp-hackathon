@@ -11,6 +11,6 @@ if [ -d "venv" ]; then
 fi
 
 mkdir -p output logs
-python3 -m src.main 2>&1 | tee -a logs/run.log
+python3 -m src.main --report 2>&1 | tee -a logs/run.log
 
 echo "==> Готово. Результат в output/, логи в logs/processing.log"

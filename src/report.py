@@ -65,8 +65,7 @@ def generate_html_report(stats: dict, path: str = "output/report.html") -> str:
         "P1": ("Критично", "≤15 мин", "#e5484d"),
         "P2": ("Высокий", "≤4 часа", "#f5a623"),
         "P3": ("Обычный", "≤1 день", "#3b82f6"),
-        "P4": ("Информац.", "—", "#9ca3af"),
-    }
+        "P4": ("Информационные", "без срока", "#9ca3af"),    }
     bars = ""
     for p in ["P1", "P2", "P3", "P4"]:
         count = urgency.get(p, 0)
@@ -107,8 +106,7 @@ def generate_html_report(stats: dict, path: str = "output/report.html") -> str:
   .section h3 {{ font-size:13px; text-transform:uppercase; letter-spacing:.5px;
                 color:#6b7280; margin-bottom:16px; }}
   .bar-row {{ display:flex; align-items:center; gap:12px; margin-bottom:10px; }}
-  .bar-label {{ width:200px; font-size:14px; }}
-  .bar-label .sla {{ color:#9ca3af; font-size:12px; margin-left:8px; }}
+  .bar-label {{ width:240px; font-size:14px; white-space:nowrap; }}  .bar-label .sla {{ color:#9ca3af; font-size:12px; margin-left:8px; }}
   .bar-track {{ flex:1; background:#f0f1f3; border-radius:6px; height:22px; }}
   .bar-fill {{ height:100%; border-radius:6px; transition:width .3s; }}
   .bar-count {{ width:36px; text-align:right; font-weight:600; font-size:14px; }}

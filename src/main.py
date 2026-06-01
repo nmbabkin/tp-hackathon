@@ -3,7 +3,7 @@ from pathlib import Path
 from src.classifier import Classifier
 from src.parser import parse_email
 from src.router import Router
-from src.report import print_console_report
+from src.report import print_console_report, generate_html_report
 
 def main() -> None:
     arg_parser = argparse.ArgumentParser(description="Обработка корпоративной почты")
@@ -42,7 +42,11 @@ def main() -> None:
 
     router.print_summary()
     if args.report:
-        print_console_report(router.get_statistics())
+        stats = router.get_statistics()
+        print_console_report(stats)
+        from src.report import generate_html_report
+        html_path = generate_html_report(stats, "output/report.html")
+        print(f"\n  HTML-отчёт сохранён: {html_path}")
 
 if __name__ == "__main__":
     main()

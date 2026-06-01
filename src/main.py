@@ -3,6 +3,7 @@ from pathlib import Path
 from src.classifier import Classifier
 from src.parser import parse_email
 from src.router import Router
+from src.report import print_console_report
 
 def main() -> None:
     arg_parser = argparse.ArgumentParser(description="Обработка корпоративной почты")
@@ -11,6 +12,11 @@ def main() -> None:
     arg_parser.add_argument(
         "--dry-run", action="store_true", help="не копировать файлы, только показать статистику"
     )
+    arg_parser.add_argument(
+        "--report", action="store_true", help="показать бизнес-отчёт после обработки"
+    )
+
+
     args = arg_parser.parse_args()
     inbox = Path(args.inbox)
     if not inbox.is_dir():
@@ -35,6 +41,8 @@ def main() -> None:
             router.stats[category] += 1
 
     router.print_summary()
+    if args.report:
+        print_console_report(router.get_statistics())
 
 if __name__ == "__main__":
     main()

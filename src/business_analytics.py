@@ -127,7 +127,6 @@ class Analytics:
     #             high = mid
     #     return (low + high) / 2
 
-
     def payback(self, scenario: str = "base") -> dict:
         """ Срок окупаемости автоматизации """    
         monthly_saving = self.scaled_fte(scenario)["rub_per_month"]
@@ -139,4 +138,20 @@ class Analytics:
             "monthly_saving": monthly_saving,
             "payback_months": round(payback_months, 1) if payback_months else None,
             "roi_year_percent": round(roi_year) if roi_year else None,
+        }
+    
+    def automation_rate(self) -> dict:
+        """Главный KPI: доля потока, обработанная автоматически.
+        Из автоматизированных исключаем unparseable (не прочиталось) и
+        unclassified (требует ручного разбора)."""
+        unparseable = self.stats.get("unparseable", 0)
+        unclassified = self.stats.get("unclassified", 0)
+        automated = self.total - unparseable - unclassified
+        rate = automated / self.total * 100 if self.total else 0
+        return {
+            "total": self.total,
+            "automated": automated,
+            "needs_human": unclassified,
+            "unparseable": unparseable,
+            "rate_percent": round(rate, 1),
         }
